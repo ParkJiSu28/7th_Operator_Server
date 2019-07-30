@@ -3,13 +3,13 @@ from django.db import models
 
 # Create your models here.
 class Group(models.Model):
-    GroupPid = models.IntegerField(primary_key=True, blank=False)
+    GroupPid = models.AutoField(primary_key=True, blank=False)
     GroupName = models.CharField(unique=True, max_length=100)
     GroupPassword = models.IntegerField(blank=False)
 
 
 class Substitute(models.Model):
-    SubstitutePid = models.IntegerField(primary_key=True, blank=False)
+    SubstitutePid = models.AutoField(primary_key=True, blank=False)
     Requestor = models.CharField(blank=False,max_length=100)
     Responsor = models.CharField(null=True, blank=True,max_length=100)
     GroupPid = models.ForeignKey('Group', on_delete=models.CASCADE)

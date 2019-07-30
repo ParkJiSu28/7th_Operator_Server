@@ -12,7 +12,7 @@ class MemberViewSet(ModelViewSet):
     serializer_class = MemberSerializer
 
 
-# 아디이 중복확인 함수
+# 아이디 중복확인 함수
 @api_view(['GET'])
 def get_check(request, pk):
     if request.method == 'GET':
