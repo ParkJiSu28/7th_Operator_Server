@@ -3,7 +3,7 @@ from .models import Group
 from .serializers import GroupSerializer, MessageSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-
+from rest_framework.filters import SearchFilter
 
 # Create your views here.
 
@@ -11,6 +11,8 @@ from rest_framework.response import Response
 class GroupViewSet(ModelViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
+    filter_backends = [SearchFilter]
+    search_fields = ['GroupName']
 
 
 #  가게이름 중복확인 함수
@@ -25,6 +27,8 @@ def get_check(request, pk):
             message = Message(message="가게이름으로 사용할 수 있습니다.")
             serializer = MessageSerializer(message)
             return Response(serializer.data)
+
+
 
 
 # 메세지 통일을 위한 클래스.
