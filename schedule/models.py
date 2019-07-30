@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Schedule(models.Model):
-    SchedulePid = models.IntegerField(primary_key=True)
+    SchedulePid = models.AutoField(primary_key=True)
     GroupPid = models.ForeignKey('group.Group', on_delete=models.CASCADE)
     member_id = models.ForeignKey('member.Member', on_delete=models.CASCADE)
     Date = models.CharField(max_length=30)
