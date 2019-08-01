@@ -19,4 +19,4 @@ class Substitute(models.Model):
 class Participate(models.Model):
     member_id = models.ForeignKey('member.Member', on_delete=models.CASCADE)
     GroupPid = models.ForeignKey('Group', on_delete=models.CASCADE)
-    Nickname = models.CharField(blank=False, max_length=100)
+    Nickname = models.CharField(primary_key=True, blank=False, max_length=100)
