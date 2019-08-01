@@ -4,6 +4,7 @@ from .serializers import GroupSerializer, MessageSerializer, ParticipateSerializ
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.filters import SearchFilter
+from rest_framework.decorators import action
 
 
 # Create your views here.
@@ -22,10 +23,19 @@ class ParticipateViewSet(ModelViewSet):
 
     def get_queryset(self):
         qs = Participate.objects.all()
-        member_id = self.request.query_params.get('member_id',None)
+        member_id = self.request.query_params.get('member_id', None)
         if member_id is not None:
             member_id_qs = qs.filter(member_id=member_id)
             return member_id_qs
+
+# 방 나가기 구현 삭제되면 GroupPid, schedule 같은 데이터 다 삭제
+@api_view(['DELETE'])
+def del_member(request, GroupPid, member_id):
+    if request.method == 'DELETE':
+        Participate.objects.filter(GroupPid=GroupPid,member_id=member_id).delete()
+        message = Message(message="삭제 완료 되었습니다.")
+        serializer = MessageSerializer(message)
+        return Response(serializer.data)
 
 
 #  그룹 닉네임 중복확인 함수 && 회원 여부 확인 && 비밀번호 확인
@@ -35,7 +45,7 @@ def get_check_nick(request, GroupPid, Nickname, member_id, GroupPassword):
         part = Participate.objects.filter(GroupPid=GroupPid)
         part_nick = part.filter(Nickname=Nickname)
         part_member = Participate.objects.filter(GroupPid=GroupPid)
-        pass_check = Group.objects.filter(GroupPassword =GroupPassword)
+        pass_check = Group.objects.filter(GroupPassword=GroupPassword)
         if pass_check:
             if part_nick and part:
                 message = Message(message="닉네임을 사용할 수 없습니다.")

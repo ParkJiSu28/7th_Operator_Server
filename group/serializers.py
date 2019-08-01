@@ -2,8 +2,10 @@ from .models import Group, Participate, Substitute
 from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers
 import sys
+
 sys.path.append("..")
 from member.serializers import MemberSerializer
+
 
 class GroupSerializer(ModelSerializer):
     class Meta:
