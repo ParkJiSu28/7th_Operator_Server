@@ -1,6 +1,6 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import GroupViewSet, get_check, ParticipateViewSet,get_check_nick
+from .views import GroupViewSet, get_check, ParticipateViewSet,get_check_nick,del_member
 
 router = DefaultRouter()
 router.register('', GroupViewSet)
@@ -21,4 +21,5 @@ urlpatterns = [
     path('sign', part_list),
     path('sign/<int:pk>', part_detail),
     path('check/<int:GroupPid>/<str:Nickname>/<str:member_id>/<str:GroupPassword>', get_check_nick),
+    path('delete/<int:GroupPid>/<str:member_id>',del_member),
 ]
