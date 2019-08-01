@@ -4,7 +4,7 @@ from .serializers import GroupSerializer, MessageSerializer, ParticipateSerializ
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.filters import SearchFilter
-from django.db.models import Q
+
 
 # Create your views here.
 
@@ -19,7 +19,6 @@ class GroupViewSet(ModelViewSet):
 class ParticipateViewSet(ModelViewSet):
     queryset = Participate.objects.all()
     serializer_class = ParticipateSerializer
-    filter_backends = [SearchFilter]
 
     def get_queryset(self):
         qs = Participate.objects.all()
