@@ -5,7 +5,7 @@ from django.db import models
 class Group(models.Model):
     GroupPid = models.AutoField(primary_key=True, blank=False)
     GroupName = models.CharField(unique=True, max_length=100)
-    GroupPassword = models.IntegerField(blank=False)
+    GroupPassword = models.CharField(blank=False,max_length=100)
 
 
 class Substitute(models.Model):
