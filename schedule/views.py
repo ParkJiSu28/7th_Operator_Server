@@ -1,6 +1,6 @@
 from rest_framework.viewsets import ModelViewSet
-from .models import Schedule,Substitute
-from .serializers import ScheduleSerializer, MessageSerializer,SubstituteSerializer
+from .models import Schedule, Substitute
+from .serializers import ScheduleSerializer, MessageSerializer, SubstituteSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
@@ -8,7 +8,8 @@ from rest_framework.response import Response
 class ScheduleViewSet(ModelViewSet):
     queryset = Schedule.objects.all()
     serializer_class = ScheduleSerializer
-   # 달에 맞춰서 일정 보내주기
+
+    # 달에 맞춰서 일정 보내주기
     def get_queryset(self):
         qs = super().get_queryset()
         gp = self.request.query_params.get('GroupPid')
@@ -19,6 +20,7 @@ class ScheduleViewSet(ModelViewSet):
         year_qs = sc_pr.filter(Date__year=year)
         month_qs = year_qs.filter(Date__month=month)
         return month_qs
+
 
 # 세부일정 조회 삭제 수정
 @api_view(['GET', 'DELETE', 'PUT'])
@@ -50,7 +52,7 @@ def get_month_pk(request, SchedulePid):
 
 
 # 일정 추가 & 모든 일정 조회
-@api_view(['GET','POST'])
+@api_view(['GET', 'POST'])
 def post_schedule(request):
     if request.method == 'POST':
         serializer = ScheduleSerializer(data=request.data)
@@ -61,13 +63,20 @@ def post_schedule(request):
 
     if request.method == 'GET':
         queryset = Schedule.objects.all()
-        serializer = ScheduleSerializer(queryset,many=True)
+        serializer = ScheduleSerializer(queryset, many=True)
         return Response(serializer.data)
 
 
 class SubstituteViewSet(ModelViewSet):
     queryset = Substitute.objects.all()
     serializer_class = SubstituteSerializer
+
+    def perform_create(self, serializer):
+        sche_pr = self.request.data['SchedulePid']
+        subTF = Schedule.objects.get(SchedulePid=sche_pr)
+        subTF.SubstituteTF = True
+        subTF.save()
+        serializer.save()
 
 
 # 메세지 통일을 위한 클래스.
