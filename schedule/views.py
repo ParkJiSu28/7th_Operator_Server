@@ -1,6 +1,6 @@
 from rest_framework.viewsets import ModelViewSet
-from .models import Schedule
-from .serializers import ScheduleSerializer, MessageSerializer
+from .models import Schedule,Substitute
+from .serializers import ScheduleSerializer, MessageSerializer,SubstituteSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
@@ -63,6 +63,12 @@ def post_schedule(request):
         queryset = Schedule.objects.all()
         serializer = ScheduleSerializer(queryset,many=True)
         return Response(serializer.data)
+
+
+class SubstituteViewSet(ModelViewSet):
+    queryset = Substitute.objects.all()
+    serializer_class = SubstituteSerializer
+
 
 # 메세지 통일을 위한 클래스.
 class Message(object):

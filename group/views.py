@@ -1,5 +1,5 @@
 from rest_framework.viewsets import ModelViewSet
-from .models import Group, Participate, Substitute
+from .models import Group, Participate
 from .serializers import GroupSerializer, MessageSerializer, ParticipateSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -78,6 +78,8 @@ def get_check(request, pk):
             message = Message(message="가게이름으로 사용할 수 있습니다.")
             serializer = MessageSerializer(message)
             return Response(serializer.data)
+
+
 
 
 # 메세지 통일을 위한 클래스.

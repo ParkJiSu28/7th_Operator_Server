@@ -1,8 +1,7 @@
-from .models import Group, Participate, Substitute
+from .models import Group, Participate
 from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers
 import sys
-
 sys.path.append("..")
 from member.serializers import MemberSerializer
 
@@ -20,6 +19,9 @@ class ParticipateSerializer(ModelSerializer):
     class Meta:
         model = Participate
         fields = '__all__'
+
+
+
 
 
 class MessageSerializer(serializers.Serializer):
