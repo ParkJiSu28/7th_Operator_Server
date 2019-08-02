@@ -18,5 +18,5 @@ class Substitute(models.Model):
     SubstitutePid = models.AutoField(primary_key=True, blank=False)
     Requestor = models.CharField(blank=False,max_length=100)
     Responsor = models.CharField(null=True, blank=True,max_length=100)
-    GroupPid = models.ForeignKey('Group', on_delete=models.CASCADE)
-    SchedulePid = models.ForeignKey('schedule.Schedule', on_delete=models.CASCADE)
+    GroupPid = models.ForeignKey('group.Group', on_delete=models.CASCADE)
+    SchedulePid = models.ForeignKey('Schedule', on_delete=models.CASCADE)

@@ -1,10 +1,10 @@
-from .models import Schedule,Substitute
+from .models import Schedule, Substitute
 from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers
 import sys
 
 sys.path.append("..")
-from group.serializers import ParticipateSerializer,GroupSerializer
+from group.serializers import ParticipateSerializer, GroupSerializer
 from member.serializers import MemberSerializer
 
 
@@ -16,6 +16,7 @@ class ScheduleSerializer(ModelSerializer):
     class Meta:
         model = Schedule
         fields = '__all__'
+
 
 class SubstituteSerializer(ModelSerializer):
     ScheduleKey = ScheduleSerializer(read_only=True)
