@@ -16,3 +16,7 @@ class ScheduleSerializer(ModelSerializer):
     class Meta:
         model = Schedule
         fields = '__all__'
+
+
+class MessageSerializer(serializers.Serializer):
+    message = serializers.CharField(max_length=200)
