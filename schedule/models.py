@@ -10,13 +10,13 @@ class Schedule(models.Model):
     StartMinute = models.IntegerField(blank=False)
     EndHour = models.IntegerField(blank=False)
     EndMinute = models.IntegerField(blank=False)
-    Nickname = models.ForeignKey('group.Participate', on_delete=models.CASCADE)
+    Nickname = models.ForeignKey('group.Participate', on_delete=models.DO_NOTHING)
     SubstituteTF = models.BooleanField(default=False)
 
 
 class Substitute(models.Model):
     SubstitutePid = models.AutoField(primary_key=True, blank=False)
-    Requestor = models.CharField(blank=False,max_length=100)
-    Responsor = models.CharField(null=True, blank=True,max_length=100)
+    Requestor = models.ForeignKey('group.Participate',on_delete=models.DO_NOTHING,related_name='substitute_req')
+    Responsor = models.ForeignKey('group.Participate',on_delete=models.DO_NOTHING,null=True,related_name='substitute_res')
     GroupPid = models.ForeignKey('group.Group', on_delete=models.CASCADE)
     SchedulePid = models.ForeignKey('Schedule', on_delete=models.CASCADE)
