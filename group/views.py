@@ -1,31 +1,25 @@
-from .models import Group, Participate
-import sys
-sys.path.append("..")
-from member.models import Member
-
-from .serializers import MessageSerializer, GroupSerializer, ParticipateSerializer, Participated_Group_Serializer
-from rest_framework.response import Response
-from rest_framework.decorators import api_view
 from rest_framework.viewsets import ModelViewSet
+from .models import Group, Participate
+from .serializers import GroupSerializer, MessageSerializer, ParticipateSerializer
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 from rest_framework.filters import SearchFilter
+from rest_framework.decorators import action
 
 
-# 방 검색
+# Create your views here.
+
+
 class GroupViewSet(ModelViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
     filter_backends = [SearchFilter]
     search_fields = ['GroupName']
 
-# 방 참여
+
 class ParticipateViewSet(ModelViewSet):
     queryset = Participate.objects.all()
     serializer_class = ParticipateSerializer
-
-# 참여중인 방 목록
-class ParticipatedGroupViewSet(ModelViewSet):
-    queryset = Participate.objects.all()
-    serializer_class = Participated_Group_Serializer
 
     def get_queryset(self):
         qs = Participate.objects.all()
@@ -33,24 +27,6 @@ class ParticipatedGroupViewSet(ModelViewSet):
         if member_id is not None:
             member_id_qs = qs.filter(member_id=member_id)
             return member_id_qs
-
-# 방 생성
-@api_view(['POST'])
-def create_group(request):
-    if request.method == 'POST':
-        try : 
-            Group.objects.create(GroupName=request.POST['GroupName'], GroupPassword=request.POST['GroupPassword'])
-            g_pid = Group.objects.get(GroupName=request.POST['GroupName'])
-            m_id = Member.objects.get(member_id=request.POST['member_id'])
-            Participate.objects.create(GroupPid=g_pid, member_id=m_id, Nickname=request.POST['Nickname'])
-            message = Message(message="성공")
-            serializer = MessageSerializer(message)
-            return Response(serializer.data)
-        except Exception as ex:
-            print(ex)
-            message = Message(message="실패")
-            serializer = MessageSerializer(message)
-            return Response(serializer.data)
 
 # 방 나가기 구현 삭제되면 GroupPid, schedule 같은 데이터 다 삭제
 @api_view(['DELETE'])
