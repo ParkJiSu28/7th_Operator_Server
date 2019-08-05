@@ -27,5 +27,14 @@ class SubstituteSerializer(ModelSerializer):
         fields = '__all__'
 
 
+#대타 내역 조회
+class Schedule_Substitute(ModelSerializer):
+    SchedulePid = ScheduleSerializer(read_only=True)
+
+    class Meta:
+        model = Substitute
+        fields = '__all__'
+
+
 class MessageSerializer(serializers.Serializer):
     message = serializers.CharField(max_length=200)
