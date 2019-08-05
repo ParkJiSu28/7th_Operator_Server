@@ -3,6 +3,10 @@ from .models import Schedule, Substitute
 from .serializers import ScheduleSerializer, MessageSerializer, SubstituteSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+import sys
+
+sys.path.append("..")
+from group.models import Participate
 
 
 class ScheduleViewSet(ModelViewSet):
@@ -71,11 +75,27 @@ class SubstituteViewSet(ModelViewSet):
     queryset = Substitute.objects.all()
     serializer_class = SubstituteSerializer
 
+    # SchedulePid로 일정 조회해서 SubstituteTF True로 만들어주기
     def perform_create(self, serializer):
         sche_pr = self.request.data['SchedulePid']
         subTF = Schedule.objects.get(SchedulePid=sche_pr)
         subTF.SubstituteTF = True
         subTF.save()
+        serializer.save()
+
+    # SchedulePid로 일정 조회해서 닉네임과 아이디 그리고 SubstituteTF False만들기
+    #foregin key 어떻게 해야하냐 아..개짱난다..
+    def perform_update(self, serializer):
+        sche_pr = self.request.data['SchedulePid']
+        subTF = Schedule.objects.get(SchedulePid=sche_pr)
+        Res = self.request.data['Responsor']
+        subTF.SubstituteTF = False
+        grpid = subTF.GroupPid
+        nick = Participate.objects.get(Nickname=Res, GroupPid=grpid)
+        subTF.Nickname = nick.Nick
+        req = self.request.data['Requestor']
+        mem_id = Participate.objects.get(Nickname=req, GroupPid=grpid)
+        subTF.member_id = mem_id.member_id
         serializer.save()
 
 
