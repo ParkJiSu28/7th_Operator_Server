@@ -16,6 +16,7 @@ class GroupViewSet(ModelViewSet):
     serializer_class = GroupSerializer
     filter_backends = [SearchFilter]
     search_fields = ['GroupName']
+    
 
 # 방 참여
 class ParticipateViewSet(ModelViewSet):
