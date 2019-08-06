@@ -233,3 +233,8 @@ modules.xml
 
 /YP/config.py
 # End of htt
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
