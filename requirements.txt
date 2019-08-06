@@ -4,7 +4,7 @@ cement==2.8.2
 certifi==2019.6.16
 chardet==3.0.4
 colorama==0.3.9
-Django==2.2.3
+Django==2.1.1
 djangorestframework==3.10.1
 djangorestframework-stubs==1.0.0
 docutils==0.14
